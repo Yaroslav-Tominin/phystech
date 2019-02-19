@@ -1,0 +1,415 @@
+
+\documentclass[a4paper,12pt]{article} 
+
+
+
+
+\usepackage[utf8]{inputenc}			 
+\usepackage[english,russian]{babel}	
+\usepackage[all]{xy}
+
+%автомат
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+
+
+% Математика
+\usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools} 
+
+
+\usepackage{wasysym}
+
+
+\usepackage{graphicx}
+\graphicspath{{pictures_tryap1/}}
+
+
+
+\author{Томинин Ярослав, 778 группа}
+\title{Домашнее задание №3}
+\date{\today}
+
+
+\begin{document} 
+
+\maketitle
+\newpage
+\textbf{1.}\\
+1)\\
+$Q=q_0,q_1,q_2$\\
+$\sum=\lbrace 0,1\rbrace$\\
+$\delta(q_0,0)=q_1,\delta(q_0,1)=q_1,\delta(q_1,0)=q_2,\delta(q_1,1)=q_0,\delta(q_2,0)=q_1,\delta(q_2,1)=q_2$\\
+$q_0=q_0$\\
+$F=\lbrace q_1 \rbrace$\\
+\\
+$Q=q_0,q_1,q_2$\\
+$\sum=\lbrace 0,1\rbrace$\\
+$\delta(q_0,0)=q_1,\delta(q_0,1)=q_1,\delta(q_1,0)=\lbrace q_0,q_2 \rbrace ,\delta(q_2,0)=q_1,\delta(q_2,1)=q_2$\\
+$q_0=q_0$\\
+$F=\lbrace q_1 \rbrace$\\
+2)\\
+А-является, так как из каждого состояния есть две стрелки 0,1 и мы можем единственным образом перейти в другое состояние, нехависимо от входа\\
+В-не явдяется, так как из $q_1$ есть две стрелки с 0 и попав в него из $q_0$ мы не можем определенном перейти только в 1 состояние.\\
+3)\\
+Находимся в $q_0$, принимаем 0, переходим в 0, принимаем 1, переходим в 1, принимаем 1 переходим в 0, принимаем два 0 переходим два раза в 0,принимаем 1, переходим в 1. Состояние допускающее, следовательно, слово допустимо.\\
+4)\\
+Находимся в 0, принимаем 0, переходим в 0, принимаем 1, переходим в 1, принимаем 0, переходим в {0,2}, принимаем 1 переходим в {1,2}, принимаем 0, переходим в {0,1,2}, принимаем 0, переходим в {0,1,2}, принимаем 1, переходим в {1,2}. Есть допустимое состояние, поэтому принимает.\\
+5)\\
+111 принадлежит А(из 0 в 1, потом в 0, потом в 1-принимающее состояние), 10 не принадлежит А(из 0 в 1, потом в 2-не принимающее)\\
+0 не принадлежит В(из 0 в 0-не принимающее), 1-принимающее(из 0 в 1-принимающее)\\
+\textbf{2.}\\
+Нет.\\
+Автомат А:\\
+\begin{center} 
+\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm] 
+\node[initial, state,accepting] (q_1) {$q_1$}; 
+
+\path[->] (q_1) edge [loop above] node {0} (q_1) 
+; 
+
+\end{tikzpicture} 
+\end{center}
+Автомат В:\\
+\begin{center} 
+\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm] 
+\node[initial, state] (q_1) {$q_1$}; 
+\node[state,accepting] (q_2) [right of=q_1] {$q_2$}; 
+
+\path[->] (q_1) 
+edge [bend left] node {1} (q_2) 
+(q_2) 
+edge [bend left] node {1} (q_1) 
+
+; 
+
+\end{tikzpicture} 
+\end{center}
+А допускает слова из 0, а В, как мы уже знаем, из нечетного числа 1, их конкатенация должна состоять из слов с каким-то количеством 0, а потом нечетным количеством 1. \\
+Докажем от проивного: постоим автомат и придем к противоречию.У нас получается\\
+\begin{center} 
+\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm] 
+\node[initial, state] (q_1) {$q_1$}; 
+
+\node[state,accepting] (q_3) [right of=q_2] {$q_3$}; 
+
+\path[->] (q_1) 
+edge [bend left] node {1} (q_3) 
+(q_3) 
+edge [bend left] node {1} (q_1) 
+(q_1) edge [loop above] node {0} (q_1)
+
+; 
+
+\end{tikzpicture} 
+\end{center}
+
+Оу, но тогда мы можем получить слово 11001, которое не принадлежит конкатенации. Противоречие. Доказанно.\\
+\textbf{3.}\\
+Имеем:\\
+\begin{center} 
+\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm] 
+\node[initial, state] (q_1) {$q_1$}; 
+\node[state,accepting] (q_2) [right of=q_1] {$q_2$}; 
+
+\path[->] (q_1) 
+edge [bend left] node {a} (q_2) ;
+
+
+\end{tikzpicture} 
+\end{center}
+
+\begin{center} 
+\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm] 
+\node[initial, state] (q_1) {$q_1$}; 
+\node[state,accepting] (q_2) [right of=q_1] {$q_2$}; 
+
+\path[->] (q_1) 
+edge [bend left] node {b} (q_2) ;
+
+
+\end{tikzpicture} 
+\end{center}
+
+a|b\\
+\begin{center} 
+\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm] 
+\node[initial, state] (q_1) {$q_1$}; 
+\node[ state] (q_2) [above right of= q_1]{$q_2$}; 
+\node[ state] (q_3) [below right of= q_1]{$q_3$}; 
+\node[state] (q_4) [right of=q_2] {$q_4$}; 
+\node[state] (q_5) [right of=q_3] {$q_5$}; 
+\node[state,accepting] (q_6) [below right of=q_4] {$q_6$}; 
+
+\path[->] (q_1) 
+edge [bend left] node {$\epsilon$} (q_2) 
+(q_1) 
+edge [bend right] node {$\epsilon$} (q_3) 
+(q_2) edge node [bend left] {a} (q_4)
+(q_3) edge node {b} (q_5)
+(q_4) 
+edge [bend left] node {$\epsilon$} (q_6) 
+(q_5) 
+edge [bend right] node {$\epsilon$} (q_6) 
+
+;
+\end{tikzpicture} 
+\end{center}
+a(a|b)\\
+
+\begin{center} 
+\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm] 
+\node[initial,state] (q_7) {$q_7$};
+\node[ state] (q_1) [right of=q_7]{$q_1$}; 
+\node[ state] (q_2) [above right of= q_1]{$q_2$}; 
+\node[ state] (q_3) [below right of= q_1]{$q_3$}; 
+\node[state] (q_4) [right of=q_2] {$q_4$}; 
+\node[state] (q_5) [right of=q_3] {$q_5$}; 
+\node[state,accepting] (q_6) [below right of=q_4] {$q_6$}; 
+
+\path[->] (q_1) 
+edge [bend left] node {$\epsilon$} (q_2) 
+(q_1) 
+edge [bend right] node {$\epsilon$} (q_3) 
+(q_2) edge node [bend left] {a} (q_4)
+(q_3) edge node {b} (q_5)
+(q_4) 
+edge [bend left] node {$\epsilon$} (q_6) 
+(q_5) 
+edge [bend right] node {$\epsilon$} (q_6) 
+(q_7) 
+edge node {a} (q_1) 
+
+;
+\end{tikzpicture} 
+\end{center}
+
+$(a(a|b))^*$\\
+
+\begin{center} 
+\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm] 
+
+\node[initial,state] (q_8) {$q_8$};
+\node[state] (q_7)[right of=q_8] {$q_7$};
+\node[ state] (q_1) [right of=q_7]{$q_1$}; 
+\node[ state] (q_2) [above right of= q_1]{$q_2$}; 
+\node[ state] (q_3) [below right of= q_1]{$q_3$}; 
+\node[state] (q_4) [right of=q_2] {$q_4$}; 
+\node[state] (q_5) [right of=q_3] {$q_5$}; 
+\node[state] (q_6) [below right of=q_4] {$q_6$}; 
+\node[state,accepting] (q_9) [below right of=q_3]{$q_9$};
+\path[->] (q_1) 
+edge [bend left] node {$\epsilon$} (q_2) 
+(q_1) 
+edge [bend right] node {$\epsilon$} (q_3) 
+(q_2) edge node [bend left] {a} (q_4)
+(q_3) edge node {b} (q_5)
+(q_4) 
+edge [bend left] node {$\epsilon$} (q_6) 
+(q_5) 
+edge [bend right] node {$\epsilon$} (q_6) 
+(q_7) 
+edge node {a} (q_1) 
+(q_8) 
+edge node {$\epsilon$} (q_7) 
+(q_6) 
+edge node [bend right]{$\epsilon$} (q_9)
+ (q_6) 
+edge[bend right] node {$\epsilon$} (q_7)
+ (q_8) 
+edge[bend right] node {$\epsilon$} (q_9)
+
+
+
+;
+\end{tikzpicture} 
+\end{center}
+
+
+
+$(a(a|b))^*$\\
+
+\begin{center} 
+\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm] 
+
+\node[initial,state] (q_8) {$q_8$};
+\node[state] (q_7)[right of=q_8] {$q_7$};
+\node[ state] (q_1) [right of=q_7]{$q_1$}; 
+\node[ state] (q_2) [above right of= q_1]{$q_2$}; 
+\node[ state] (q_3) [below right of= q_1]{$q_3$}; 
+\node[state] (q_4) [right of=q_2] {$q_4$}; 
+\node[state] (q_5) [right of=q_3] {$q_5$}; 
+\node[state] (q_6) [below right of=q_4] {$q_6$}; 
+\node[state] (q_9) [below right of=q_3]{$q_9$};
+\node[state,accepting] (q_10) [below of=q_9]{$q_{10}$};
+\path[->] (q_1) 
+edge [bend left] node {$\epsilon$} (q_2) 
+(q_1) 
+edge [bend right] node {$\epsilon$} (q_3) 
+(q_2) edge node [bend left] {a} (q_4)
+(q_3) edge node {b} (q_5)
+(q_4) 
+edge [bend left] node {$\epsilon$} (q_6) 
+(q_5) 
+edge [bend right] node {$\epsilon$} (q_6) 
+(q_7) 
+edge node {a} (q_1) 
+(q_8) 
+edge node {$\epsilon$} (q_7) 
+(q_6) 
+edge node [bend right]{$\epsilon$} (q_9)
+ (q_6) 
+edge[bend right] node {$\epsilon$} (q_7)
+ (q_8) 
+edge[bend right] node {$\epsilon$} (q_9)
+ (q_9) 
+edge[bend right] node {b} (q_10)
+
+
+
+;
+\end{tikzpicture} 
+\end{center}
+\textbf{4.}\\
+\begin{center} 
+\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm] 
+\node[initial, state] (q_1) {$q_1$}; 
+\node[state] (q_2) [right of=q_1] {$q_2$}; 
+\node[state] (q_3) [right of=q_2] {$q_3$}; 
+\node[state] (q_4) [right of=q_3] {$q_4$}; 
+\node[state] (q_5) [right of=q_4] {$q_5$}; 
+\node[state,accepting] (q_6) [right of=q_5] {$q_6$}; 
+
+
+\path[->] (q_1) 
+edge [bend left] node {a} (q_2) 
+(q_1) 
+edge [loop above] node {a b} (q_1) 
+
+(q_2) 
+edge [bend left] node {b} (q_3)
+(q_3) 
+edge [bend left] node {a} (q_4) 
+(q_4) 
+edge [bend left] node {a} (q_5) 
+(q_5) 
+edge [bend left] node {b} (q_6) 
+
+
+
+ ;
+
+\end{tikzpicture} 
+\end{center}
+Докажем, что этот автомат распознает только слова, оканчивающиеся на суффикс abaab. Для этого докажем иварианты:\\
+1)когда мы попадаем в 2, то последовательность оканчивается на а(так как мы можем попасть в него только из 1 по а, то это очевидно)\\
+2)когда мы попадаем в 3, то последовательность оканчивается на аb(так как мы можем попасть в него только из 2 по b и если используем 1 инвариант, то это очевидно)\\
+3)когда мы попадаем в 4, то последовательность оканчивается на аba(так как мы можем попасть в него только из 3 по a и если используем 1 и 2 инварианты, то это очевидно)\\
+4)когда мы попадаем в 5, то последовательность оканчивается на аbaа(так как мы можем попасть в него только из 4 по a и если используем 1, 2,3 инварианты, то это очевидно)\\
+5)когда мы попадаем в 6, то последовательность оканчивается на аbaаb(так как мы можем попасть в него только из 5 по b и если используем 1, 2,3,4  инварианты, то это очевидно)\\
+Следовательно мы доказали, что этот автомат распознает только слова, оканчивающиеся на суффикс abaab.\\
+Докажем, что автомат распознает все слова, оканчивающиеся на abaab. От противного, допустим, что существует слова, оканчивающееся на abaab, но его автомат не распознает. Тогда мы рассмотрим слово w, как w=$u\cdot abaab$ и будем переходить в 1 состояние, пока будут подаваться символы из u. Мы так сможем сделать, потому что у нас есть переход из 1 в 1 по любому символу. Далее просто перейдем в 2,3,4,5,6 по символам abaab. Мы очутились в допустимом состоянии и пришли к противоречию. Следовательно,автомат распознает все слова, оканчивающиеся на abaab.\\
+5.\\
+Рассморим $Q_1$=$\epsilon-closure(q_1)=q_1$\\
+$Q_1$ переход по а($Q_2$)\\
+$Q_2=\epsilon-closure(q_1)|\epsilon-closure(q_2)=\lbrace q_1,q_2 \rbrace$\\
+$Q_1$ переход по b($Q_1$)\\
+$Q_3=\epsilon-closure(q_1)=q_1=Q_1$\\
+$Q_2$ переход по а($Q_2$)\\
+$Q_4=\epsilon-closure(q_1)|\epsilon-closure(q_2)=\lbrace q_1,q_2 \rbrace=Q_2$\\
+$Q_2$ переход по b($Q_5$)\\
+$Q_5=\epsilon-closure(q_1)|\epsilon-closure(q_3)=\lbrace q_1,q_3 \rbrace$\\
+$Q_5$ переход по a($Q_6$)\\
+$Q_6=\epsilon-closure(q_1)|\epsilon-closure(q_2)|\epsilon-closure(q_4)=\lbrace q_1,q_2,q_4 \rbrace$\\
+$Q_5$ переход по b($Q_1$)\\
+$Q_7=\epsilon-closure(q_1)=\lbrace q_1 \rbrace=Q_1$\\
+
+
+$Q_6$ переход по a($Q_8$)\\
+$Q_8=\epsilon-closure(q_1)|\epsilon-closure(q_2)|\epsilon-closure(q_5)=\lbrace q_1,q_2,q_5 \rbrace$\\
+$Q_6$ переход по b($Q_5$)\\
+$Q_9=\epsilon-closure(q_1)|\epsilon-closure(q_3)=\lbrace q_1,q_3 \rbrace=Q_5$\\
+
+
+$Q_8$ переход по a($Q_2$)\\
+$Q_{10}=\epsilon-closure(q_1)|\epsilon-closure(q_2)=\lbrace q_1,q_2 \rbrace=Q_2$\\
+$Q_8$ переход по b($Q_{11}$)\\
+$Q_{11}=\epsilon-closure(q_1)|\epsilon-closure(q_3)|\epsilon-closure(q_6)=\lbrace q_1,q_3,q_6 \rbrace$\\
+
+
+$Q_{11}$ переход по a($Q_{6}$)\\
+$Q_{12}=\epsilon-closure(q_1)|\epsilon-closure(q_2)|\epsilon-closure(q_4)=\lbrace q_1,q_2,q_4 \rbrace=Q_6$\\
+$Q_{11}$ переход по b($Q_{1}$)\\
+$Q_{13}=\epsilon-closure(q_1)=\lbrace q_1 \rbrace=Q_1$\\
+
+\begin{center} 
+\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm] 
+\node[initial, state] (q_1) {$Q_1$}; 
+\node[state] (q_2) [right of=q_1] {$Q_2$}; 
+\node[state] (q_5) [right of=q_2] {$Q_5$}; 
+\node[state] (q_6) [right of=q_5] {$Q_6$}; 
+\node[state] (q_8) [right of=q_6] {$Q_8$}; 
+\node[state,accepting] (q_11) [right of=q_8] {$Q_{11}$}; 
+
+
+
+\path[->] (q_1) 
+edge [bend left] node {a} (q_2) 
+(q_1) 
+edge [loop above] node {b} (q_1) 
+
+(q_2) 
+edge [loop above] node {a} (q_2)
+(q_2) 
+edge [bend left] node {b} (q_5) 
+(q_5) 
+edge [bend left] node {a} (q_6) 
+(q_5) 
+edge [bend left] node {b} (q_1) 
+(q_6) 
+edge [bend left] node {a} (q_8) 
+(q_6) 
+edge [bend left] node {b} (q_5)
+(q_8) 
+edge [bend left] node {a} (q_2) 
+(q_8) 
+edge [bend left] node {b} (q_11) 
+(q_11) 
+edge [bend left] node {a} (q_6) 
+(q_11) 
+edge [bend left] node {b} (q_1) 
+
+
+
+ 
+
+
+
+
+
+ ;
+
+\end{tikzpicture} 
+\end{center}
+\textbf{6.}\\
+a)Докажем это от противного. Допустим, что ДКА имеет меньше, чем $|w|+1$ состояний. Тогда рассмотрим цепочку из последовательности состояний, когда мы подадим в наш автомат слово, принадлежащее нашему языку, а точнее на последние $|w|+1$ состояний. В сили того, что у нас меньше, чем $|w|+1$ состояний, то по признаку Дирихле в этой цепочке существует состояние, которое встречается 2 раза(состояние Х). Рассмотрим промежуток между тем моментом, когда мы встретили это состояние Х в 1 раз и когда мы встретили его во второй раз. Если мы выкинем эту часть цепочки, то автомат будет допускать это слово, но при этом его суффикс уже будет дугим(проблема может возникнуть, если суффикс не изменится, но в силу произвольности слова, мы всегда можем подобрать такое слово, чтобы он изменился, достаточно лишь(если мы выкидываем цепочку из к символов) позаботиться, чтобы к символов до суффикса не совпадали с первыми к символами суффикса ). Ура, мы пришли к противоречию.\\
+b)Давайте сделаем такой автомат, который поддерживает следующие инварианты: во втором состоянии последний символ входа, который мы прочитали- первая буква суффикса,причем последние 2 буквы входа не являются первыми буквами суффикса,в третьем состоянии последние 2 символа входа, которые мы прочитали- две первые буквы суффикса,причем последние 3 буквы входа не являются первыми буквами суффикса, и т.д. На $|w|+1$ состоянии последние$|w|$ символов входа, которые мы прочитали- $|w|$ первых букв суффикса.\\
+Обозначения: w[i]-i-ая буква суффикса,W[i]-первые i букв суффикса,$\neg{w[i]}$-другая буква алфавита, котора не стоит на i-ом месте. $\Theta(i,x)$(где i-последовательность символов, x-входной символ)-функция, которая возвращает значение, какое максимальное количество символов можно взять из конца новой последовательности символов, чтобы они были первыми буквами суффикса(ясно, что $\Theta(i,{w[i]})=k+1$,где к-длина последовательности i)\\
+
+
+Для этого определим $\delta$ следующим образом: $\delta(q_i,w[i])=q_{i+1}$ , $\delta(q_i,\neg w[i])=q_{k}$,где $k=\Theta(W[i]\cdot \neg w[i])+1$\\
+Докажем по индукции, что при такой функции соблюдаются инварианты:\\
+База: при длине слова n=0 находимся в 1 состоянии, это соответствует нашему инварианту-потому что 0 символов и не больше соответствуют первым 0 символам из суффикса.\\
+Переход: пусть для  n-соблюдаются инварианты. Докажем для n+1: мы стоим на i месте, если x=w[i], то мы перейдем на i+1 место и так как мы добавиди одну букву w[i], то в i+1 состоянии последние i символа входа, которые мы прочитали- i первые буквы суффикса,причем последние i+1 буквы входа не являются первыми буквами суффикса. Инвариант сохранился.\\
+Если же x=$\neq w[i]$, то мы перейдем на то место, где сохранится инвариант в силу определения функции $\Theta$\\
+ Инварианты доказаны, в силу этих инвариантов наш алгоритм допускает только слова, оканчивающиеся на нужный суффикс(инвариант допускающего состояния) и все слова, оканчивающиеси на этот суффикс, допустимы(ведь автомат полный и если бы мы находились в состоянии отличном от допустимого, то наш инвариант бы не соблюдался).\\
+ 
+
+
+\textbf{7.}\\
+Рассмотрим наш ДКА, если в нем меньше, чем $2^n$  состояний, то найдутся такие две цепочки a,b  длины n, что у них отличается хотя бы один символ на i месте и их цепочки заканчиваются на месте q. Тогда, если i равно 1, то q должно быть одновременно допускающим и недопускающим. Если же i больше 1, то рассмотрим состояние q', в которое мы перейдем из q   по i-1 нулю. В это состояние попадут наши новые цепочки $a'=a\cdot{00...00}$ и $b'=b\cdot{00...00}$. Эти цепочки попадут в состояние q' и для одной оно должно быть допускающим, а для другой нет. Противоречие. Следовательно в ДКА хотя бы $2^n$  состояний.\\
+
+
+
+
+
+\end{document}

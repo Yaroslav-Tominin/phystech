@@ -1,0 +1,424 @@
+
+\documentclass[a4paper,12pt]{article} 
+
+
+
+
+\usepackage[utf8]{inputenc}			 
+\usepackage[english,russian]{babel}	
+\usepackage[all]{xy}
+
+%автомат
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+
+
+% Математика
+\usepackage{amsmath,amsfonts,amssymb,amsthm,mathtools} 
+
+
+\usepackage{wasysym}
+
+
+\usepackage{graphicx}
+\graphicspath{{pictures_tryap1/}}
+
+
+
+\author{Томинин Ярослав, 778 группа}
+\title{Домашнее задание №4}
+\date{\today}
+
+
+\begin{document} 
+
+\maketitle
+\newpage
+\textbf{1.}\\
+\begin{center} 
+\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm] 
+\node[initial, state] (q_0) {$q_0$}; 
+\node[state] (q_1) [below right of=q_0]{$b$}; 
+\node[ state] (q_2) [below right of=q_1]{$ba$}; 
+\node[ state] (q_3) [below right of=q_2]{$bab$}; 
+\node[state] (q_4) [below right of=q_3] {$babb$}; 
+\node[state] (q_5) [below right of=q_4] {$babba$}; 
+\node[state] (q_6) [below right of=q_5] {$babbab$}; 
+\node[state] (q_7) [below right of=q_6] {$babbaba$}; 
+\node[state,accepting] (q_8) [below right of=q_7] {$babbabab$}; 
+
+\path[->] (q_0) 
+edge  node {$b$} (q_1) 
+(q_0) 
+edge [loop above] node {$a$} (q_0) 
+(q_1) 
+edge  [loop above]node {$b$} (q_1) 
+(q_1) 
+edge node {$a$} (q_2) 
+(q_2) 
+edge  node {$b$} (q_3) 
+(q_2) 
+edge [bend left] node {$a$} (q_0) 
+(q_3) 
+edge  node {$b$} (q_4) 
+(q_3) 
+edge [bend left] node {$a$} (q_2) 
+(q_4) 
+edge  [bend left]node {$b$} (q_1) 
+(q_4) 
+edge  node {$a$} (q_5) 
+(q_5) 
+edge  node {$b$} (q_6) 
+(q_5) 
+edge [bend left] node {$a$} (q_0) 
+(q_6) 
+edge  [bend left] node {$b$} (q_4) 
+(q_6) 
+edge node {$a$} (q_7)
+(q_7) 
+edge  node {$b$} (q_8) 
+(q_7) 
+edge [bend left] node {$a$} (q_0)  
+(q_8) 
+edge  [bend left] node {$b$} (q_4) 
+(q_8) 
+edge [bend left] node {$a$} (q_2) 
+
+
+
+
+
+
+
+
+
+;
+\end{tikzpicture} 
+\end{center}
+Автомат построен по алгоритму, разобранному на занятии.\\
+$l(a)=\epsilon$\\
+$l(bb)=b$\\
+$l(baa)=\epsilon$\\
+$l(baba)=ba$\\
+$l(babbb)=b$\\
+$l(babbaa)=q_0$\\
+$l(babbabb)=babb$\\
+$l(babbabaa)=\epsilon$\\
+$l(babbababa)=ba$\\
+$l(babbababb)=babb$\\
+
+2)\\
+
+\begin{center} 
+\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm] 
+\node[initial, state] (q_0) {$q_0$}; 
+\node[state] (q_1) [below right of=q_0]{$b$}; 
+\node[ state] (q_2) [below right of=q_1]{$ba$}; 
+\node[ state] (q_3) [below right of=q_2]{$bab$}; 
+\node[state] (q_4) [below right of=q_3] {$babb$}; 
+\node[state] (q_5) [below right of=q_4] {$babba$}; 
+\node[state] (q_6) [below right of=q_5] {$babbab$}; 
+\node[state] (q_7) [below right of=q_6] {$babbaba$}; 
+\node[state,accepting] (q_8) [below right of=q_7] {$babbabab$}; 
+
+\path[->] (q_0) 
+edge  node {$b$} (q_1) 
+(q_0) 
+edge [loop above] node {$a$} (q_0) 
+(q_1) 
+edge node {$a$} (q_2) 
+(q_2) 
+edge  node {$b$} (q_3) 
+
+(q_3) 
+edge  node {$b$} (q_4) 
+
+(q_4) 
+edge  node {$a$} (q_5) 
+(q_5) 
+edge  node {$b$} (q_6) 
+
+(q_6) 
+edge node {$a$} (q_7)
+(q_7) 
+edge  node {$b$} (q_8) 
+;
+\path[->] [draw=green](q_1)  [bend left] edge node {$$} (q_0);
+\path[->] [draw=green](q_2)  [bend left] edge node {$$} (q_0);
+\path[->] [draw=green](q_3)  [bend left] edge node {$$} (q_1);
+\path[->] [draw=green](q_4)  [bend left] edge node {$$} (q_1);
+\path[->] [draw=green](q_5)  [bend left] edge node {$$} (q_2);
+\path[->] [draw=green](q_6)  [bend left] edge node {$$} (q_3);
+\path[->] [draw=green](q_7)  [bend left] edge node {$$} (q_2);
+\path[->] [draw=green](q_8)  [bend left] edge node {$$} (q_3);
+\end{tikzpicture} 
+\end{center}
+3)\\
+Слово-babbabbabab\\
+$(q_0,babbabbabab)$\\
+$(b,abbabbabab)$\\
+$(ba,bbabbabab)$\\
+$(bab,babbabab)$\\
+$(babb,abbabab)$\\
+$(babba,bbabab)$\\
+$(babbab,babab)$\\
+$(bab,babab)$\\по ссылке\\
+$(babb,abab)$\\
+$(babba,bab)$\\
+$(babbab,ab)$\\
+$(babbaba,b)$\\
+$(babbabab,\epsilon)$\\Состояние допускающее, значит слово допустимо\\
+Cлово - babbabc\\
+$(q_0,babbabc)$\\
+$(b,abbabc)$\\
+$(ba,bbabc)$\\
+$(bab,babc)$\\
+$(babb,abc)$\\
+$(babba,bc)$\\
+$(babbab,c)$\\
+по ссылке\\
+$(bab,c)$\\
+по ссылке\\
+$(b,c)$\\
+по ссылке\\
+$(q_0,c)$\\
+Автомат сломался(множество возможных состояний 0), значит слово недопустимо(нет ни одного допустимого состояния)\\
+\textbf{2.}\\
+
+
+
+
+
+
+\begin{center} 
+\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm] 
+\node[initial, state] (q_0) {$q_0$}; 
+\node[state] (A) [right of=q_0]{$a$}; 
+\node[ state,accepting] (C) [below  of=A]{$c$}; 
+\node[ state,accepting] (B) [below of=C]{$b$}; 
+\node[state] (AA) [above right of=A] {$aa$}; 
+\node[state,accepting] (AC) [below right of=A] {$ac$}; 
+\node[state,accepting] (AAC) [ right of=AA] {$aac$}; 
+\node[state,accepting] (ACB) [ right of=AC] {$acb$}; 
+
+\path[->] (q_0)  edge node {$a$} (A);
+\path[->] (q_0)  edge node {$b$} (B);
+\path[->] (q_0)  edge node {$c$} (C);
+\path[->] (A)  edge node {$a$} (AA);
+\path[->] (A)  edge node {$c$} (AC);
+\path[->] (AA)  edge node {$c$} (AAC);
+\path[->] (AC)  edge node {$b$} (ACB);
+
+
+\path[->] [draw=green](A)  [bend left] edge node {$$} (q_0);
+\path[->] [draw=green](B)  [bend left] edge node {$$} (q_0);
+\path[->] [draw=green](C)  [bend left] edge node {$$} (q_0);
+\path[->] [draw=green](AA)  [bend left] edge node {$$} (A);
+\path[->] [draw=green](AC)  [bend left] edge node {$$} (C);
+\path[->] [draw=green](AAC)  [bend left] edge node {$$} (AC);
+\path[->] [draw=green](ACB)  [bend left] edge node {$ $} (B);
+
+
+
+
+
+
+\end{tikzpicture} 
+\end{center}
+Cлово-aacbacb\\
+Расчитаем количество допустимых состояний у каждого состояния, до которых можно добраться по суффиксным ссылкам\\
+a-0\\
+aa-0\\
+aac-3\\
+ac-2\\
+acb-2\\
+b-1\\
+c-1\\
+Теперь опишем работу\\
+$(q_0,aacbacb,0)$\\
+$([a],acbacb,0)$\\
+$([aa],cbacb,0)$\\
+$([aac],bacb,3)$\\
+$([acb],acb,3+2)$\\
+$([a],cb,3+2)$\\
+$([ac],b,3+2+2)$\\
+$([acb],\epsilon,3+2+2+2)$\\
+Итого:9\\
+\textbf{3.}\\
+Построим ДКА, распознающий подслово aab.\\
+Будем строить КМП-автомат и оставаться по достижению конца в допустимом состоянии. Исходя из корректности КМП мы дойдем до допустимого состояния тогда и только тогда, когда мы прочитаем в первый раз подслово aab.\\
+$l(q_0,b)=q_0$\\
+$l(q_1,b)=q_0$\\
+$l(q_2,a)=q_2$\\
+
+
+\begin{center} 
+\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm] 
+\node[initial, state] (q_0) {$q_0$}; 
+\node[state] (A) [right of=q_0]{$q_1$}; 
+\node[state] (AA) [ right of=A] {$q_2$}; 
+\node[state,accepting] (AAB) [ right of=AA] {$q_3$}; 
+
+\path[->] (q_0)  edge node {$a$} (A);
+\path[->] (q_0) [loop above] edge node {$b$} (q_0);
+
+
+
+\path[->] (A)  edge node {$a$} (AA);
+\path[->] (A) [bend left] edge node {$b$} (q_0);
+\path[->] (AA)  edge node {$b$} (AAB);
+\path[->] (AA)  [loop above]edge node {$a$} (AA);
+\path[->] (AAB)  [loop above]edge node {$a,b$} (AAB);
+
+
+
+
+
+
+
+\end{tikzpicture} 
+\end{center}
+
+
+Построим ДКА, распознающий подслово ba\\
+Будем строить КМП-автомат и оставаться по достижению конца в допустимом состоянии. Исходя из корректности КМП мы дойдем до допустимого состояния тогда и только тогда, когда мы прочитаем в первый раз подслово ba.\\
+$l(q_0,a)=q_0$\\
+$l(q_1,b)=q_1$\\
+
+\begin{center} 
+\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm] 
+\node[initial, state] (q_0) {$q_0$}; 
+\node[state] (B) [right of=q_0]{$q_1$}; 
+\node[state,accepting] (BA) [ right of=B] {$q_2$}; 
+
+
+\path[->] (q_0)  edge node {$b$} (B);
+\path[->] (q_0) [loop above] edge node {$a$} (q_0);
+
+
+
+\path[->] (B)  edge node {$a$} (BA);
+\path[->] (B) [loop above] edge node {$b$} (B);
+
+\path[->] (BA)  [loop above]edge node {$a,b$} (BA);
+
+
+
+
+
+
+
+
+\end{tikzpicture} 
+\end{center}
+Хорошо, построим произведение этих автоматов\\
+\begin{center} 
+\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm] 
+\node[initial, state] (q_00) {$q_{00}$}; 
+\node[state] (q_01) [right of=q_00]{$q_{01}$}; 
+\node[state] (q_02) [right of=q_01]{$q_{02}$}; 
+\node[state] (q_03) [right of=q_02]{$q_{03}$}; 
+
+\node[state] (q_10) [below of =q_00]{$q_{10}$}; 
+\node[state] (q_11) [right of=q_10]{$q_{11}$}; 
+\node[state] (q_12) [right of=q_11]{$q_{12}$}; 
+\node[state] (q_13) [right of=q_12]{$q_{13}$}; 
+
+
+\node[state] (q_20) [below of =q_10]{$q_{20}$}; 
+\node[state] (q_21) [right of=q_20]{$q_{21}$}; 
+\node[state] (q_22) [right of=q_21]{$q_{22}$}; 
+\node[state,accepting] (q_23) [right of=q_22]{$q_{23}$}; 
+
+
+
+\path[->] (q_00)  edge node {$a$} (q_01);
+\path[->] (q_00)  edge node {$b$} (q_10);
+
+\path[->] (q_01)  edge node {$a$} (q_02);
+\path[->] (q_01)  edge node {$b$} (q_10);
+
+\path[->] (q_02)  [loop above]edge node {$a$} (q_02);
+\path[->] (q_02)  edge node {$b$} (q_13);
+
+\path[->] (q_03)  [loop above]edge node {$a$} (q_03);
+\path[->] (q_03)  edge node {$b$} (q_13);
+
+\path[->] (q_10)  edge node {$a$} (q_21);
+\path[->] (q_10)  [loop left]edge node {$b$} (q_10);
+
+\path[->] (q_11)  edge node {$a$} (q_22);
+\path[->] (q_11)  edge node {$b$} (q_10);
+
+\path[->] (q_12)  edge node {$a$} (q_22);
+\path[->] (q_12)  edge node {$b$} (q_13);
+
+\path[->] (q_13)  edge node {$a$} (q_23);
+\path[->] (q_13)  [loop right]edge node {$b$} (q_13);
+
+\path[->] (q_20)  edge node {$a$} (q_21);
+\path[->] (q_20)  [loop left]edge node {$b$} (q_20);
+
+\path[->] (q_21)  edge node {$a$} (q_22);
+\path[->] (q_21)  [bend left]edge node {$b$} (q_20);
+
+\path[->] (q_22)  [loop below]edge node {$a$} (q_22);
+\path[->] (q_22)  edge node {$b$} (q_23);
+
+\path[->] (q_23)  [loop right]edge node {$a$} (q_23);
+\path[->] (q_23)  [loop below]edge node {$b$} (q_23);
+
+
+
+\end{tikzpicture} 
+\end{center}
+Видим, что мы никак не можем попасть в $q_{12},q_{03},q_{11}$\\
+Поэтому полученный автомат имеет 9 состояний. \\
+Построим ДКА, допускающий подслово babb\\
+Будем строить КМП-автомат и оставаться по достижению конца в допустимом состоянии. Исходя из корректности КМП мы дойдем до допустимого состояния тогда и только тогда, когда мы прочитаем в первый раз подслово ba.\\
+$l(q_0,a)=q_0$\\
+$l(q_1,b)=q_1$\\
+$l(q_2,a)=q_0$\\
+$l(q_3,a)=q_2$\\
+
+
+
+\begin{center} 
+\begin{tikzpicture}[>=stealth',shorten >=1pt,auto,node distance=2cm] 
+\node[initial, state] (q_0) {$q_0$}; 
+\node[state] (B) [right of=q_0]{$q_1$}; 
+\node[state] (BA) [ right of=B] {$q_2$}; 
+\node[state] (BAB) [ right of=BA] {$q_3$}; 
+\node[state,accepting] (BABB) [ right of=BAB] {$q_4$}; 
+
+\path[->] (q_0) [loop above] edge node {$a$} (q_0);
+\path[->] (q_0)  edge node {$b$} (B);
+
+\path[->] (B)  [loop above]edge node {$b$} (B);
+\path[->] (B)  edge node {$a$} (BA);
+
+\path[->] (BA)  edge node {$b$} (BAB);
+\path[->] (BA)  [bend left]edge node {$a$} (q_0);
+
+\path[->] (BAB) edge node {$b$} (BABB);
+\path[->] (BAB)  [bend left]edge node {$a$} (BA);
+
+\path[->] (BABB)  [loop above]edge node {$a,b$} (BABB);
+
+
+
+
+
+
+
+
+\end{tikzpicture} 
+\end{center}
+
+Мы умеем делать отрицание полного ДКА, оно будет содержать тоже 5 состояний. Если мы возбьмем произведение этого автомата и автомата сверху, содержащего 9 вершин, то мы как раз получим тот автомат, который нам нужно.(Исходя из корректности конструкции произведения и конструкции отрицания для полных ДКА)\\
+Полученный ДКА будет содержать 5*9=45 вершин.\\
+
+
+
+
+\end{document}
