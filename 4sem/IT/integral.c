@@ -14,12 +14,13 @@ typedef struct CPU_TOPOLOGY
 {
   int* buf_kern;
   int* buf_proces;
+  int* buf_phys_proces;
   int num_imag_process;
 }CpuTop,*pCpuTop;
 
 CpuTop ncpus()
 {
-
+  FILE *cmd_phys_process = popen("cat /proc/cpuinfo | egrep -i 'physical id' | grep -o -E '[0-9]+'","r");
   FILE *cmd = popen("cat /proc/cpuinfo | grep -i 'core id'|sort | wc -l","r");
   FILE *cmd_kern = popen("cat /proc/cpuinfo | egrep -i 'core id' | grep -o -E '[0-9]+'","r");
   FILE *cmd_proces = popen("cat /proc/cpuinfo | egrep 'processor'| grep -o -E '[0-9]+'","r");
@@ -32,10 +33,13 @@ CpuTop ncpus()
   CpuTop cpu;
   if ((n = fscanf(cmd,"%d",&count)) <= 0)
       handle_error("DONT'T SCANF COUNT\n");
+
+  int* buf_phys_proces=(int*)malloc(sizeof(int)*count);
   int* buf_kern=(int*)malloc(sizeof(int)*count);
   int* buf_proces=(int*)malloc(sizeof(int)*count);
   cpu.buf_kern=buf_kern;
   cpu.buf_proces=buf_proces;
+  cpu.buf_phys_proces=buf_phys_proces;
   cpu.num_imag_process=count;
   for(int i=0;i<count;++i)
   {
@@ -43,7 +47,10 @@ CpuTop ncpus()
         handle_error("DONT'T READ CPU KERN\n");
     if ((n = fscanf(cmd_proces,"%d",&(buf_proces[i]))) <= 0)
         handle_error("DONT'T READ CPU PROCES\n");
-    printf("Kernel:%d,procees:%d\n", buf_kern[i],buf_proces[i]);
+    if ((n = fscanf(cmd_phys_process,"%d",&(buf_phys_proces[i]))) <= 0)
+        handle_error("DONT'T READ CPU PHYS PROCES\n");
+
+    printf("Kernel:%d,procees:%d,PHYS PROCES:%d\n", buf_kern[i],buf_proces[i],buf_phys_proces[i]);
   }
 
   pclose(cmd);
@@ -81,6 +88,7 @@ void* calculate_integral(void* arg)
   int s=pthread_setaffinity_np(thread, sizeof(cpu_set_t), &cpuset);
   if(s!=0)
     handle_error("DONT'T TAKE A CERNEL\n");
+  cend = clock();
   for(int i=0;i<n;++i)
   {
     k=tread->start+tread->step*i;
@@ -119,7 +127,8 @@ int main(int argc, char const *argv[])
   printf("NCPUS=%d\n", cpu_topology.num_imag_process);
   int logic_proces[cpu_topology.num_imag_process];
   int n=0;
-  for(int i=0;i<cpu_topology.num_imag_process;++i)
+  int i;
+  for(i=0;i<cpu_topology.num_imag_process;++i)
   {
     if(i==0)
     {
@@ -132,7 +141,8 @@ int main(int argc, char const *argv[])
     while(j<i)
     {
       //printf("HERE11111\n" );
-      if(j==i-1 && cpu_topology.buf_kern[j]!=cpu_topology.buf_kern[i])
+      //printf("HEREJHBCBQBCHQR,j=%d,i=%d\n",j ,i);
+      if((j==i-1) && (cpu_topology.buf_kern[j]!=cpu_topology.buf_kern[i]))
       {
         //printf("HERE55555555,j=%d,i=%d\n",j ,i);
         logic_proces[n]=cpu_topology.buf_proces[i];
@@ -140,8 +150,16 @@ int main(int argc, char const *argv[])
         ++j;
         continue;
       }
+      if(j==i-1 && cpu_topology.buf_kern[j]==cpu_topology.buf_kern[i] && cpu_topology.buf_phys_proces[j]!=cpu_topology.buf_phys_proces[i])
+      {
+        //printf("HEREJJJJJJ,j=%d,i=%d\n",j ,i);
+        logic_proces[n]=cpu_topology.buf_proces[i];
+        ++n;
+        ++j;
+        continue;
+      }
       //printf("HERE22222\n" );
-      if(cpu_topology.buf_kern[j]==cpu_topology.buf_kern[i])
+      if(cpu_topology.buf_kern[j]==cpu_topology.buf_kern[i] && cpu_topology.buf_phys_proces[j]==cpu_topology.buf_phys_proces[i])
         break;
       //printf("HERE33333\n" );
       ++j;
@@ -179,6 +197,7 @@ double* SUM_ARRAY=(double*)malloc(sizeof(double)*number_treads*150);
   }
   void* res;
   double sum=0;
+  cend = clock();
   printf ("MAIN  cpu sec %f\n", ((double)cend - (double)cstart)* 1.0e-6);
   for (j=0;j<number_treads;++j)
   {
