@@ -6,7 +6,8 @@
 - Поменять количество слоев и количество признаков на каждом слое
 - Добавить к входным данным новые признаки вершин 
 ### Все результаты эксперимента можно найти [здесь](https://github.com/Yaroslav-Tominin/phystech/blob/master/ml/IPPI_experiments_with_layers.pdf)
-
+![GitHub Logo](IPPI_gif_my_solution)
+Format: ![Alt Text](url)
 
 
 
