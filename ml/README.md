@@ -14,15 +14,15 @@
 ### Данная гифка показывает, как раздвигаются вершины в двухмерном пространстве признаков, в том случае, когда наш метод правильно класифицировал 31 человека из 32
 ![GitHub Logo](IPPI_gif_my_solution.gif)
 
+### Код можно посмотреть [здесь](https://github.com/Yaroslav-Tominin/phystech/blob/master/ml/IPPI_notebook_karate_club.py)
 
 
-
-IPPI_experiments_with_layers.pdf - 
-IPPI_presentation - презентация для ИППИ
-IPPI_code - код на jupiter
-slides_final -презентация по HOG
-TomininY2018Project25_31.pdf -статья по HOG
-HOG_inplace_final-Copy1.ipynb - код по hog
+- IPPI_experiments_with_layers.pdf - таблица с результатами эксперимента
+- IPPI_presentation - презентация для ИППИ
+- IPPI_code - код на jupiter
+- slides_final -презентация по HOG
+- TomininY2018Project25_31.pdf -статья по HOG
+- HOG_inplace_final-Copy1.ipynb - код по hog
 
 
 
